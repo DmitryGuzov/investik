@@ -25,6 +25,14 @@ export async function getServerSideProps(context: any) {
       investment = invest;
     }
   });
+  if (!investment) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
   return { props: { investment: investment } };
 }
 
@@ -33,7 +41,10 @@ export default function Investment(props: any) {
   const bg1 = useColorModeValue('gray.50', 'gray.900');
   const bg2 = useColorModeValue('gray.100', 'gray.700');
   // const { investmentId } = router.query;
-
+  const router = useRouter();
+  if (props.investment == null) {
+    router.push('/');
+  }
   // const [data, setData] = React.useState(null);
   // const [isLoading, setLoading] = React.useState(true);
 
@@ -59,7 +70,7 @@ export default function Investment(props: any) {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <MainLayout>
-        <Box bg={bg1}>
+        <Box bg={bg1} w='100%'>
           <Main investment={props.investment} />
         </Box>
         <Box bg={bg2}>

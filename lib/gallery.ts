@@ -15,6 +15,6 @@ export const gallery = [
     title: 'Проверенные инвестиции для вложений с ежедневной выплатой',
     text: 'Чтобы ваши деньги успешно работали, нужно не просто найти лучшие сайты для инвестиций, но и избегать распространенных ошибок, которые допускают новички.',
     image:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCZlZC-9xD3G8K1jKD1dKshrP7klRfMwttwOypz_yp50OO6E7XoChBwPCH0QHEz_DXCqU&usqp=CAU',
+      'https://cdn.pixabay.com/photo/2020/05/12/20/01/bitcoin-5164786_1280.jpg',
   },
 ];

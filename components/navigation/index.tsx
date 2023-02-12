@@ -72,7 +72,7 @@ export default function Navigation() {
             direction={'row'}
             spacing={6}
           >
-            <Button
+            {/* <Button
               as={'a'}
               display={{ base: 'none', md: 'inline-flex' }}
               fontSize={'sm'}
@@ -85,7 +85,7 @@ export default function Navigation() {
               }}
             >
               Sign In
-            </Button>
+            </Button> */}
           </Stack>
         </Flex>
 

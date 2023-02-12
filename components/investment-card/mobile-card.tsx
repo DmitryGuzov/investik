@@ -30,7 +30,7 @@ const MobileCard = ({ index, item }: MobileCardProps): JSX.Element => {
   const handleNavigate = (e: any) => {
     e.stopPropagation();
 
-    router.push('/investments/1');
+    router.push(`/investments/${item.id}`);
   };
   const handleTelegram = (e: any) => {
     e.stopPropagation();

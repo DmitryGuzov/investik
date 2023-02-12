@@ -16,7 +16,9 @@ const QuestionsAccordion = () => {
   return (
     <Container maxW={'5xl'} py={16} as={Stack} spacing={12}>
       <Stack spacing={0} align={'center'}>
-        <Heading>Часто задаваемые вопросы про инвестиции</Heading>
+        <Heading pl={'2'} pr={'2'} size={{ base: 'lg', md: 'xl' }}>
+          Часто задаваемые вопросы про инвестиции
+        </Heading>
         {/* <Text>Часто задаваемые вопросы про инвестиции</Text> */}
       </Stack>
       <Accordion allowToggle>

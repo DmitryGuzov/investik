@@ -160,7 +160,7 @@ export default function TestimonialsSlider({
       />
 
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
-        {list.map((item, index) => {
+        {list?.map((item, index) => {
           return (
             <Box
               key={index}

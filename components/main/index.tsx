@@ -138,10 +138,10 @@ const Main = ({ investment }: MainProps): JSX.Element => {
                   </Box>
 
                   <Wrap spacing={'2'} marginTop={3}>
-                    <Tag size={'md'} variant='solid' colorScheme='orange'>
+                    <Tag size={'md'} variant='outline' colorScheme='orange'>
                       {investment?.status}
                     </Tag>
-                    <Tag size={'md'} variant='solid' colorScheme='orange'>
+                    <Tag size={'md'} variant='solid' colorScheme='green'>
                       <StarIcon mr={2} /> {investment?.rate}
                     </Tag>
                     <Button
@@ -179,11 +179,6 @@ const Main = ({ investment }: MainProps): JSX.Element => {
                       })}
                     </List>
                   </Box>
-
-                  {/* <BlogAuthor
-                  name='John Doe'
-                  date={new Date('2021-04-06T19:01:27Z')}
-                /> */}
                 </Box>
               </WrapItem>
               <Divider />
@@ -240,7 +235,7 @@ const Main = ({ investment }: MainProps): JSX.Element => {
                             <Tag
                               size={'md'}
                               variant='solid'
-                              colorScheme='orange'
+                              colorScheme='green'
                             >
                               <StarIcon mr={2} /> {item.rate}
                             </Tag>
@@ -313,7 +308,7 @@ const Main = ({ investment }: MainProps): JSX.Element => {
                             />
                             <Text fontWeight={'semibold'}>{item.title}</Text>
                           </HStack>
-                          <Tag size={'md'} variant='solid' colorScheme='orange'>
+                          <Tag size={'md'} variant='solid' colorScheme='green'>
                             <StarIcon mr={2} /> {item.rate}
                           </Tag>
                         </HStack>

@@ -93,7 +93,7 @@ const DesktopCard = ({ index, item }: DesktopCardProps): JSX.Element => {
         <CardFooter display={'flex'} justifyContent={'space-around'}>
           <Tag
             size={{ base: 'sm', md: 'md' }}
-            variant='solid'
+            variant='outline'
             colorScheme='orange'
           >
             {item.status}
@@ -101,7 +101,7 @@ const DesktopCard = ({ index, item }: DesktopCardProps): JSX.Element => {
           <Tag
             size={{ base: 'sm', md: 'md' }}
             variant='solid'
-            colorScheme='orange'
+            colorScheme='green'
           >
             <StarIcon mr={1} /> {item.rate}
           </Tag>

@@ -5,26 +5,34 @@ import MainLayout from '@/components/main-layout';
 import { Box, useColorModeValue } from '@chakra-ui/react';
 import Main from '@/components/main';
 import TestimonialsSlider from '@/components/testimonials-slider';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Fade from 'react-reveal';
-import { investments } from '@/lib/investments';
+import { collection, doc, getDoc, getFirestore } from 'firebase/firestore';
+import { db } from '@/config/firebase';
 
 // This gets called on every request
 export async function getServerSideProps(context: any) {
-  console.log();
   const id = context.params.investmentId; // Get ID from slug `/book/1`
-  console.log(context.params);
-  console.log(id);
-  // Fetch data from external API
-  // const res = await fetch(`https://.../data`)
-  // const data = await res.json()
-  let investment = null;
-  // Pass data to the page via props
-  investments.forEach((invest) => {
-    if (invest.id === id) {
-      investment = invest;
+
+  async function getInvestment() {
+    const db = getFirestore();
+    const docRef = doc(db, 'investments', id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return { ...docSnap.data(), id: docSnap.id };
+    } else {
+      return null;
     }
-  });
+  }
+
+  const investment = await getInvestment();
+
+  // Pass data to the page via props
+  // investments.forEach((invest) => {
+  //   if (invest.id === id) {
+  //     investment = invest;
+  //   }
+  // });
   if (!investment) {
     return {
       redirect: {
@@ -37,14 +45,8 @@ export async function getServerSideProps(context: any) {
 }
 
 export default function Investment(props: any) {
-  console.log(props);
   const bg1 = useColorModeValue('gray.50', 'gray.900');
   const bg2 = useColorModeValue('gray.100', 'gray.700');
-  // const { investmentId } = router.query;
-  const router = useRouter();
-  if (props.investment == null) {
-    router.push('/');
-  }
 
   return (
     <>

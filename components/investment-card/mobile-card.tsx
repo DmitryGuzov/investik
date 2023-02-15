@@ -99,10 +99,10 @@ const MobileCard = ({ index, item }: MobileCardProps): JSX.Element => {
             </List>
           </Stack>
           <Stack direction={'row'} alignItems={'center'}>
-            <Tag size={'md'} p={2} variant='solid' colorScheme='orange'>
+            <Tag size={'md'} p={2} variant='outline' colorScheme='orange'>
               {item.status}
             </Tag>
-            <Tag size={'md'} p={2} variant='solid' colorScheme='orange'>
+            <Tag size={'md'} p={2} variant='solid' colorScheme='green'>
               <StarIcon mr={2} /> {item.rate}
             </Tag>
           </Stack>

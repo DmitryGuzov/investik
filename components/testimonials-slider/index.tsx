@@ -178,12 +178,11 @@ export default function TestimonialsSlider({
               >
                 <Testimonial key={index}>
                   <TestimonialContent>
-                    <TestimonialHeading>{item.name}</TestimonialHeading>
                     <TestimonialText>{item.message}</TestimonialText>
                   </TestimonialContent>
                   <TestimonialAvatar
                     src={item.image}
-                    name={'Jane Cooper'}
+                    name={item.name}
                     title={'CEO at ABC Corporation'}
                   />
                 </Testimonial>

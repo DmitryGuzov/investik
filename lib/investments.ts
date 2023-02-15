@@ -239,6 +239,13 @@ export const investments = [
         image: null,
         createdAt: new Date().toISOString(),
       },
+      {
+        name: 'Gringo 2',
+        message:
+          'Сам канал ничего из себя не представляет. Гораздо хуже, что он рекламирует мошенников.',
+        image: null,
+        createdAt: new Date().toISOString(),
+      },
     ],
     details: {
       image: '/images/profit-whale/details.webp',

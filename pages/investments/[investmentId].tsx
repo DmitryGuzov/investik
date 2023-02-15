@@ -6,7 +6,7 @@ import { Box, useColorModeValue } from '@chakra-ui/react';
 import Main from '@/components/main';
 import TestimonialsSlider from '@/components/testimonials-slider';
 import React from 'react';
-
+import Fade from 'react-reveal';
 import { investments } from '@/lib/investments';
 
 // This gets called on every request
@@ -45,21 +45,6 @@ export default function Investment(props: any) {
   if (props.investment == null) {
     router.push('/');
   }
-  // const [data, setData] = React.useState(null);
-  // const [isLoading, setLoading] = React.useState(true);
-
-  // React.useEffect(() => {
-  //   setLoading(true);
-
-  //   new Promise((res) => {
-  //     setTimeout(() => {
-  //       res('');
-  //     }, 2000);
-  //   }).then(() => {
-  //     setData(data);
-  //     setLoading(false);
-  //   });
-  // }, []);
 
   return (
     <>
@@ -73,9 +58,13 @@ export default function Investment(props: any) {
         <Box bg={bg1} w='100%'>
           <Main investment={props.investment} />
         </Box>
-        <Box bg={bg2}>
-          <TestimonialsSlider list={props?.investment?.testimonials} />
-        </Box>
+        {props?.investment?.testimonials.length > 0 ? (
+          <Box bg={bg2}>
+            <Fade bottom ssrFadeout distance={'10%'}>
+              <TestimonialsSlider list={props?.investment?.testimonials} />
+            </Fade>
+          </Box>
+        ) : null}
       </MainLayout>
     </>
   );

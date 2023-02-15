@@ -61,10 +61,17 @@ const MobileCard = ({ index, item }: MobileCardProps): JSX.Element => {
                 {`#${index + 1}`}
               </Text>
             </Box>
-            <Box>
+            <Box
+              textAlign={'center'}
+              alignItems='center'
+              display={'flex'}
+              justifyContent={'center'}
+            >
               <Image
-                w={'120px'}
-                height={'80px'}
+                borderRadius={'50%'}
+                w={'60px'}
+                height={'60px'}
+                // height={'100%'}
                 objectFit={'cover'}
                 src={item.image}
                 alt={'item-logo'}

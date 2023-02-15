@@ -11,6 +11,7 @@ import {
 import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 import { ReactNode } from 'react';
 import Logo from '../logo';
+import Logo2 from '../logo/logo2';
 
 const SocialButton = ({
   children,
@@ -61,18 +62,18 @@ export default function Footer() {
         gap={{ base: 4, md: 2 }}
       >
         <Text order={{ base: 3, md: 1 }}>
-          © 2023 Chakra. All rights reserved
+          © 2023 - Все права защищены
         </Text>
-        <Box order={{ base: 2, md: 2 }} display={{ base: 'none', md: 'flex' }}>
+        <Box order={{ base: 2, md: 2 }} display={{  md: 'flex' }}>
           <Logo />
         </Box>
-        <Stack
+        {/* <Stack
           direction={'row'}
           spacing={6}
           w={{ base: '100%', md: 'auto' }}
           order={{ base: 1, md: 3 }}
           display={{ base: 'flex', md: 'block' }}
-          justifyContent={{ base: 'space-around', md: 'center' }}
+          justifyContent={{ base: 'space-between', md: 'center' }}
         >
           <Box display={{ base: 'flex', md: 'none' }}>
             <Logo />
@@ -93,7 +94,7 @@ export default function Footer() {
               <FaInstagram />
             </SocialButton>
           </Box>
-        </Stack>
+        </Stack> */}
       </Container>
     </Box>
   );

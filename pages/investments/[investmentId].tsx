@@ -2,37 +2,32 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import MainLayout from '@/components/main-layout';
-import { Box, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, useColorModeValue, Wrap } from '@chakra-ui/react';
 import Main from '@/components/main';
-import TestimonialsSlider from '@/components/testimonials-slider';
+import TestimonialsSlider, {
+  TestimonialAvatar,
+  TestimonialContent,
+  TestimonialText,
+} from '@/components/testimonials-slider';
 import React, { useEffect } from 'react';
 import Fade from 'react-reveal';
 import { collection, doc, getDoc, getFirestore } from 'firebase/firestore';
 import { db } from '@/config/firebase';
+import {
+  getInvestmentById,
+  getTopFiveInvestments,
+} from '@/services/investments';
+import Testimonial from '@/components/testimonial';
+import { getAllInvestmentComments } from '@/services/comments';
 
 // This gets called on every request
 export async function getServerSideProps(context: any) {
   const id = context.params.investmentId; // Get ID from slug `/book/1`
 
-  async function getInvestment() {
-    const db = getFirestore();
-    const docRef = doc(db, 'investments', id);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      return { ...docSnap.data(), id: docSnap.id };
-    } else {
-      return null;
-    }
-  }
+  const investment = await getInvestmentById(id);
+  const comments = await getAllInvestmentComments(id);
+  const topFiveInvestments = await getTopFiveInvestments();
 
-  const investment = await getInvestment();
-
-  // Pass data to the page via props
-  // investments.forEach((invest) => {
-  //   if (invest.id === id) {
-  //     investment = invest;
-  //   }
-  // });
   if (!investment) {
     return {
       redirect: {
@@ -41,7 +36,13 @@ export async function getServerSideProps(context: any) {
       },
     };
   }
-  return { props: { investment: investment } };
+  return {
+    props: {
+      investment: investment,
+      investments: topFiveInvestments,
+      comments: comments,
+    },
+  };
 }
 
 export default function Investment(props: any) {
@@ -58,13 +59,40 @@ export default function Investment(props: any) {
       </Head>
       <MainLayout>
         <Box bg={bg1} w='100%'>
-          <Main investment={props.investment} />
+          <Main investment={props.investment} investments={props.investments} />
         </Box>
-        {props?.investment?.testimonials.length > 0 ? (
+        {props?.comments.length > 0 ? (
           <Box bg={bg2}>
-            <Fade bottom ssrFadeout distance={'10%'}>
-              <TestimonialsSlider list={props?.investment?.testimonials} />
-            </Fade>
+            {props?.comments.length < 3 ? (
+              <Flex
+                p={5}
+                alignItems={'center'}
+                justifyContent={'space-around'}
+                flexWrap={'wrap'}
+                gap={5}
+              >
+                {props.comments.map((t: any, index: number) => {
+                  return (
+                    <Testimonial key={index}>
+                      <TestimonialContent>
+                        <TestimonialText>{t.message}</TestimonialText>
+                      </TestimonialContent>
+                      <TestimonialAvatar
+                        src={t.image}
+                        name={t.name}
+                        title={'CEO at ABC Corporation'}
+                      />
+                    </Testimonial>
+                  );
+                })}
+              </Flex>
+            ) : (
+              <>
+                <Fade bottom ssrFadeout distance={'10%'}>
+                  <TestimonialsSlider list={props?.comments} />
+                </Fade>
+              </>
+            )}
           </Box>
         ) : null}
       </MainLayout>

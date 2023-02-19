@@ -58,7 +58,8 @@ const Details = ({ details }: MainProps): JSX.Element => {
   const parseData = (data: any) => {
     switch (data.type) {
       case 'paragraph': {
-        return data.value.map((p: string, index: number) => {
+        const paragraphs = data.value.split(/\r\n|\r|\n/gi);
+        return paragraphs.map((p: string, index: number) => {
           return (
             <Text key={index} as='p' fontSize={{ base: 'md', md: 'lg' }} p={2}>
               {p}
@@ -67,9 +68,10 @@ const Details = ({ details }: MainProps): JSX.Element => {
         });
       }
       case 'ordered-list': {
+        const list = data.value.split(/\r\n|\r|\n/gi);
         return (
           <OrderedList spacing={3} p={2}>
-            {data.value.map((item: string, index: number) => {
+            {list.map((item: string, index: number) => {
               return (
                 <ListItem fontSize={{ base: 'md', md: 'lg' }} key={index}>
                   {item}
@@ -80,9 +82,10 @@ const Details = ({ details }: MainProps): JSX.Element => {
         );
       }
       case 'list': {
+        const list = data.value.split(/\r\n|\r|\n/gi);
         return (
           <List spacing={3} p={2}>
-            {data.value.map((item: string, index: number) => {
+            {list.map((item: string, index: number) => {
               return (
                 <ListItem fontSize={{ base: 'md', md: 'lg' }} key={index}>
                   <ListIcon as={CheckIcon} color='green.500' />
@@ -95,7 +98,7 @@ const Details = ({ details }: MainProps): JSX.Element => {
       }
       case 'title': {
         return (
-          <Heading as='h3' pl={'2'} pr={'2'} size={{base: 'lg', md: 'xl'}}>
+          <Heading as='h3' pl={'2'} pr={'2'} size={{ base: 'lg', md: 'xl' }}>
             {data.value}
           </Heading>
         );
@@ -104,7 +107,7 @@ const Details = ({ details }: MainProps): JSX.Element => {
   };
 
   return (
-    <Box>
+    <Box width={{ base: '100%' }}>
       <VStack
         paddingTop='40px'
         spacing='2'
@@ -115,27 +118,30 @@ const Details = ({ details }: MainProps): JSX.Element => {
         boxShadow={'lg'}
       >
         <Box>
-          <Box
-            float={{ base: 'none', md: 'none', lg: 'right' }}
-            m='3'
-            alignItems={'center'}
-            display={'flex'}
-            justifyContent={'center'}
-          >
-            <Image
-              transform='scale(1.0)'
-              src={details?.image}
-              alt='some text'
-              objectFit={{ base: 'contain', md: 'cover' }}
-              width={{ base: 'auto', md: '300px' }}
-              height={{ base: '500px', md: '500px' }}
-              borderRadius={'8px'}
-              transition='0.3s ease-in-out'
-              _hover={{
-                transform: 'scale(1.05)',
-              }}
-            />
-          </Box>
+          {details?.image != null && details?.image.trim().length > 0 ? (
+            <Box
+              float={{ base: 'none', md: 'none', lg: 'right' }}
+              m='3'
+              alignItems={'center'}
+              display={'flex'}
+              justifyContent={'center'}
+            >
+              <Image
+                transform='scale(1.0)'
+                src={details?.image}
+                alt='some text'
+                objectFit={{ base: 'contain', md: 'cover' }}
+                width={{ base: 'auto', md: '300px' }}
+                height={{ base: '500px', md: '500px' }}
+                borderRadius={'8px'}
+                transition='0.3s ease-in-out'
+                _hover={{
+                  transform: 'scale(1.05)',
+                }}
+              />
+            </Box>
+          ) : null}
+
           {details?.data?.map((detail: any, index: number) => {
             return (
               <React.Fragment key={index}>{parseData(detail)}</React.Fragment>

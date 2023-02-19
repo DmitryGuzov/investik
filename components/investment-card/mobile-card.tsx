@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   ButtonGroup,
@@ -67,51 +68,61 @@ const MobileCard = ({ index, item }: MobileCardProps): JSX.Element => {
               display={'flex'}
               justifyContent={'center'}
             >
-              <Image
+              <Avatar
                 borderRadius={'50%'}
                 w={'60px'}
                 height={'60px'}
-                // height={'100%'}
                 objectFit={'cover'}
                 src={item.image}
-                alt={'item-logo'}
               />
             </Box>
+            <Stack ml='10px' direction={'column'}>
+              <Heading
+                size='sm'
+                as='h2'
+                textTransform='uppercase'
+                textAlign={'left'}
+              >
+                {item.title}
+              </Heading>
+              <List>
+                {item.tags.map((tag: string, index: number) => {
+                  return (
+                    <ListItem key={index} textAlign='left'>
+                      <ListIcon as={CheckIcon} color='green.500' />
+                      {tag}
+                    </ListItem>
+                  );
+                })}
+              </List>
+            </Stack>
           </Box>
-          <Stack direction={'column'}>
-            <Heading
-              size='sm'
-              as='h2'
-              textTransform='uppercase'
-              textAlign={'left'}
-            >
-              {item.title}
-            </Heading>
-            <List>
-              {item.tags.map((tag: string, index: number) => {
-                return (
-                  <ListItem key={index} textAlign='left'>
-                    <ListIcon as={CheckIcon} color='green.500' />
-                    {tag}
-                  </ListItem>
-                );
-              })}
-            </List>
-          </Stack>
+
           <Stack direction={'row'} alignItems={'center'}>
-            <Tag size={'md'} p={2} variant='outline' colorScheme='orange'>
+            <Tag
+              size={'md'}
+              p={2}
+              variant='outline'
+              colorScheme='orange'
+              minW={'120px'}
+              display={'flex'}
+              alignItems={'center'}
+              justifyContent={'center'}
+            >
               {item.status}
             </Tag>
-            <Tag size={'md'} p={2} variant='solid' colorScheme='green'>
+            <Tag
+              size={'md'}
+              p={2}
+              variant='solid'
+              colorScheme='green'
+              width={'50px'}
+              display={'flex'}
+              alignItems={'center'}
+              justifyContent={'center'}
+            >
               <StarIcon mr={2} /> {item.rate}
             </Tag>
-          </Stack>
-          <Box
-            display={'flex'}
-            alignItems={'center'}
-            flexDirection={'column'}
-            justifyContent={'center'}
-          >
             <ButtonGroup spacing='2' marginRight={{ base: 0, md: 5 }}>
               <Button
                 variant='solid'
@@ -123,7 +134,7 @@ const MobileCard = ({ index, item }: MobileCardProps): JSX.Element => {
                 Telegram
               </Button>
             </ButtonGroup>
-          </Box>
+          </Stack>
         </Stack>
       </CardBody>
     </Card>

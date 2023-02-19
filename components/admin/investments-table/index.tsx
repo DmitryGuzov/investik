@@ -69,7 +69,7 @@ const InvestmentsTable = ({
         description: 'Вы удалили проект',
         status: 'success',
         position: 'top-right',
-        duration: 9000,
+        duration: 5000,
         isClosable: true,
       });
       setDeleteId(null);
@@ -78,20 +78,27 @@ const InvestmentsTable = ({
 
   const handleEdit = (id: string) => (e: any) => {
     e.stopPropagation();
-    router.push(`/admin/dashboard/edit/${id}`);
+    router.push(`/admin/investments/edit/${id}`);
+  };
+  const handleEditComments = (id: string) => (e: any) => {
+    e.stopPropagation();
+    router.push(`/admin/investments/comments/${id}`);
   };
   const handleAddInvestment = () => {
-    router.push('/admin/dashboard/add');
+    router.push('/admin/investments/add');
   };
 
   return (
     <Box position='relative'>
-      <Box h='calc(100vh - 60px - 65px)' overflowY='auto'>
+      <Box
+        // h='calc(100vh - 60px - 65px)'
+        overflowY='auto'
+      >
         <TableContainer>
           <Table variant='simple' size='sm'>
             <Thead>
               <Tr>
-                <Td colSpan={7}>
+                <Td colSpan={8}>
                   <Box
                     width='100%'
                     display={'flex'}
@@ -115,6 +122,7 @@ const InvestmentsTable = ({
                 <Th>№</Th>
                 <Th>Картинка</Th>
                 <Th>Название</Th>
+                <Th textAlign={'center'}>Топ 5</Th>
                 <Th textAlign={'center'}>Рейтинг</Th>
                 <Th textAlign={'center'}>Статус</Th>
                 <Th textAlign={'center'}>Отзывы</Th>
@@ -124,7 +132,7 @@ const InvestmentsTable = ({
             <Tbody>
               {loading === true ? (
                 <Tr>
-                  <Td colSpan={7} textAlign={'center'}>
+                  <Td colSpan={8} textAlign={'center'}>
                     <Loading />
                   </Td>
                 </Tr>
@@ -152,10 +160,30 @@ const InvestmentsTable = ({
                         </Td>
                         <Td textAlign={'center'}>
                           <Tag
+                            width={'50px'}
+                            size={'md'}
+                            p={2}
+                            variant='solid'
+                            colorScheme={
+                              investment.isTopFive ? 'yellow' : 'pink'
+                            }
+                            display={'flex'}
+                            alignItems={'center'}
+                            justifyContent={'center'}
+                          >
+                            {investment.isTopFive ? 'Да' : 'Нет'}
+                          </Tag>
+                        </Td>
+                        <Td textAlign={'center'}>
+                          <Tag
+                            width={'70px'}
                             size={'md'}
                             p={2}
                             variant='solid'
                             colorScheme='green'
+                            display={'flex'}
+                            alignItems={'center'}
+                            justifyContent={'center'}
                           >
                             <StarIcon mr={2} /> {investment.rate}
                           </Tag>
@@ -166,20 +194,38 @@ const InvestmentsTable = ({
                             p={2}
                             variant='outline'
                             colorScheme='orange'
+                            minW={'120px'}
+                            display={'flex'}
+                            alignItems={'center'}
+                            justifyContent={'center'}
                           >
                             {investment.status}
                           </Tag>
                         </Td>
 
                         <Td textAlign={'center'}>
-                          <Tag
-                            size={'md'}
-                            p={2}
-                            variant='solid'
-                            colorScheme='blue'
+                          <ButtonGroup
+                            size='sm'
+                            isAttached
+                            isDisabled={deleteLoading}
                           >
-                            {investment.testimonials.length} отзывов
-                          </Tag>
+                            <Button
+                              colorScheme='green'
+                              variant='outline'
+                              size='sm'
+                            >
+                              {investment?.comments ?? 0} отзывов
+                            </Button>
+                            <Button
+                              leftIcon={<EditIcon />}
+                              colorScheme='blue'
+                              variant='outline'
+                              size='sm'
+                              onClick={handleEditComments(investment.id)}
+                            >
+                              Ред.
+                            </Button>
+                          </ButtonGroup>
                         </Td>
                         <Td isNumeric>
                           <ButtonGroup
@@ -227,7 +273,7 @@ const InvestmentsTable = ({
             {!loading && investments.length === 0 && (
               <Tfoot>
                 <Tr>
-                  <Td colSpan={7} textAlign='center'>
+                  <Td colSpan={8} textAlign='center'>
                     <Text>Not found</Text>
                   </Td>
                 </Tr>
@@ -244,19 +290,19 @@ const InvestmentsTable = ({
           <AlertDialogOverlay>
             <AlertDialogContent>
               <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                Delete Customer
+                Удалить проект?
               </AlertDialogHeader>
 
               <AlertDialogBody>
-                Are you sure? You can`t undo this action afterwards.
+                Вы уверены? Вы не сможете отменить это действие впоследствии.
               </AlertDialogBody>
 
               <AlertDialogFooter>
                 <Button ref={cancelRef} onClick={handleClose}>
-                  Cancel
+                  Отмена
                 </Button>
                 <Button colorScheme='red' onClick={handleDelete} ml={3}>
-                  Delete
+                  Удалить
                 </Button>
               </AlertDialogFooter>
             </AlertDialogContent>

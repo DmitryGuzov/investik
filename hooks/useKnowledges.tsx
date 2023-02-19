@@ -1,45 +1,33 @@
 import { useEffect, useState } from 'react';
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  getDoc,
-  deleteDoc,
-  doc,
-} from 'firebase/firestore';
 
-import { db } from '@/config/firebase';
-import {
-  getAllInvestments,
-  getInvestmentsWithPageAndCount,
-  deleteInvestmentWithComments,
-} from '@/services/investments';
+import { deleteKnowledgeItem, getKnowledges } from '@/services/knowledges';
+import { KnowledgeModel } from '@/models/knowledge';
 
-const useInvestments = function () {
+const useKnowledges = function () {
   const [loading, setLoading] = useState(false);
-  const [investments, setInvestments] = useState<any>([]);
+  const [knowledges, setKnowledges] = useState<KnowledgeModel[]>([]);
   const [limit, setLimit] = useState(2);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(1);
 
-  async function deleteInvestment(id: string) {
+  async function deleteKnowledge(id: string) {
     setDeleteLoading(true);
 
-    let newInvestments = investments.slice();
+    let newInvestments = knowledges.slice();
     let idx = newInvestments.findIndex((item: any) => item.id === id);
     if (idx !== -1) {
-      const res = await deleteInvestmentWithComments(id);
+      const res = await deleteKnowledgeItem(id);
       newInvestments.splice(idx, 1);
-      setInvestments(newInvestments);
+      setKnowledges(newInvestments);
     }
     setDeleteLoading(false);
   }
 
   useEffect(() => {
     setLoading(true);
-    getAllInvestments().then((list) => {
-      setInvestments(list);
+    getKnowledges().then((list) => {
+      setKnowledges(list);
       setLoading(false);
     });
   }, []);
@@ -51,14 +39,14 @@ const useInvestments = function () {
   return {
     page,
     setPage,
-    investments,
+    knowledges,
     limit,
     loading,
     setTake,
-    deleteInvestment,
+    deleteKnowledge,
     deleteLoading,
     total,
   };
 };
 
-export default useInvestments;
+export default useKnowledges;

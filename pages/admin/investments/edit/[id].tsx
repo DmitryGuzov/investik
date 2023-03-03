@@ -77,7 +77,7 @@ export async function getServerSideProps(context: any) {
       },
     };
   }
-  return { props: { investment: investment } };
+  return { props: { investment: investment },   };
 }
 
 function EditInvestment(props: any) {

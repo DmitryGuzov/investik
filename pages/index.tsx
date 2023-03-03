@@ -25,7 +25,7 @@ import { getTopFiveInvestments } from '@/services/investments';
 import KnowledgesBox from '@/components/knowledges';
 import { getKnowledges } from '@/services/knowledges';
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   let investments: any = [];
 
   const topFiveInvestments = await getTopFiveInvestments();
@@ -336,7 +336,7 @@ export default function Home(props: any) {
             </Box>
           </VStack>
         </Container>
-        {props.knowledges.length > 0 ? (
+        {props.knowledges?.length > 0 ? (
           <Container
             maxW={'7xl'}
             p={0}

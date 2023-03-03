@@ -19,6 +19,7 @@ import {
 } from '@/services/investments';
 import Testimonial from '@/components/testimonial';
 import { getAllInvestmentComments } from '@/services/comments';
+import investments from '../admin/investments';
 
 // This gets called on every request
 export async function getServerSideProps(context: any) {
@@ -36,11 +37,12 @@ export async function getServerSideProps(context: any) {
       },
     };
   }
+
   return {
     props: {
-      investment: investment,
-      investments: topFiveInvestments,
-      comments: comments,
+      investment: investment ? investment : [],
+      investments: topFiveInvestments ? topFiveInvestments : [],
+      comments: comments ? comments : [],
     },
   };
 }
@@ -61,9 +63,9 @@ export default function Investment(props: any) {
         <Box bg={bg1} w='100%'>
           <Main investment={props.investment} investments={props.investments} />
         </Box>
-        {props?.comments.length > 0 ? (
+        {props?.comments?.length > 0 ? (
           <Box bg={bg2}>
-            {props?.comments.length < 3 ? (
+            {props?.comments?.length < 3 ? (
               <Flex
                 p={5}
                 alignItems={'center'}

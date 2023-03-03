@@ -19,10 +19,10 @@ export async function getServerSideProps() {
     investments = res;
   }
 
-  return { props: { investments: investments } };
+  return { props: { investments: investments ? investments : [] } };
 }
 
-export default function Investments(props: any) {
+function Investments(props: any) {
   return (
     <>
       <Head>
@@ -37,3 +37,17 @@ export default function Investments(props: any) {
     </>
   );
 }
+
+// Investments.getInitialProps = async () => {
+//   let investments: any = [];
+
+//   let res = await getAllInvestments();
+//   if (res != null) {
+//     investments = res;
+//   }
+
+//   return { props: { investments: investments ? investments : [] } };
+//   }
+  
+
+export default Investments;

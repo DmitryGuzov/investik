@@ -175,7 +175,7 @@ const Main = ({ investment, investments }: MainProps): JSX.Element => {
 
                   <Box p={0}>
                     <VStack mt={5} p={0}>
-                      {investments.map((item: any, index) => {
+                      {investments?.map((item: any, index) => {
                         return (
                           <HStack
                             pl={3}
@@ -259,7 +259,7 @@ const Main = ({ investment, investments }: MainProps): JSX.Element => {
 
                 <Box p={0}>
                   <VStack mt={5} p={0}>
-                    {investments.map((item: any, index) => {
+                    {investments?.map((item: any, index) => {
                       return (
                         <HStack
                           pl={3}

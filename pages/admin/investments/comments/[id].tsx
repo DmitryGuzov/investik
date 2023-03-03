@@ -65,7 +65,8 @@ export async function getServerSideProps(context: any) {
       },
     };
   }
-  return { props: { comments: comments, investmentId: id } };
+  
+  return { props: { comments: comments, investmentId: id },  };
 }
 
 function EditComments(props: any) {

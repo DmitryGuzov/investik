@@ -21,7 +21,7 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from '@chakra-ui/icons';
-import Logo from '../logo';
+import Logo2 from '../logo/logo2';
 import React from 'react';
 import { auth } from '@/config/firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
@@ -82,7 +82,7 @@ export default function Navigation() {
             />
           </Flex>
           <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-            <Logo />
+            <Logo2 />
 
             <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
               <DesktopNav isAuth={isAuth} />

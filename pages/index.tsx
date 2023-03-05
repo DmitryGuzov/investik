@@ -15,17 +15,14 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import InvestmentList from '@/components/investment-list';
-import { investments } from '@/lib/investments';
 import QuestionsAccordion from '@/components/questions-accordion';
 import { CheckIcon } from '@chakra-ui/icons';
 import Fade from 'react-reveal';
-import { collection, getDocs, limit, query } from 'firebase/firestore';
-import { db } from '@/config/firebase';
 import { getTopFiveInvestments } from '@/services/investments';
 import KnowledgesBox from '@/components/knowledges';
 import { getKnowledges } from '@/services/knowledges';
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   let investments: any = [];
 
   const topFiveInvestments = await getTopFiveInvestments();

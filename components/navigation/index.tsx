@@ -132,7 +132,7 @@ const DesktopNav = ({ isAuth }: any) => {
   const color1 = 'green.50';
   const secondBg = 'blue.50'; //useColorModeValue('blue.50', 'gray.900');
   const thirdBg = 'yellow.50'; // useColorModeValue('yellow.50', 'gray.900');
-
+  const fourBg = 'blue.50';
   return (
     <Stack direction={'row'} spacing={4}>
       {DESKTOP_NAV_ITEMS.map((navItem) => (
@@ -186,19 +186,19 @@ const DesktopNav = ({ isAuth }: any) => {
                   bg={firstBg}
                   color={color1}
                 />
-                {/* <DesktopSubNav
-                  label='Комментарии'
-                  subLabel='Настройка комментариев'
-                  href='#'
-                  bg={secondBg}
-                  color={'green.50'}
-                /> */}
                 <DesktopSubNav
                   label='База знаний'
                   subLabel='Настройка базы знаний'
                   href='/admin/knowledges'
                   bg={thirdBg}
                   color={'green.50'}
+                />
+                 <DesktopSubNav
+                  label='Телеграм'
+                  subLabel='Отправление сообщений'
+                  href='/admin/telegram'
+                  bg={fourBg}
+                  color={'blue.50'}
                 />
               </Stack>
             </PopoverContent>
@@ -356,6 +356,11 @@ const MOBILE_NAV_ITEMS: Array<NavItem> = [
         label: 'База знаний',
         subLabel: 'Настройка базы знаний',
         href: '/admin/knowledges',
+      },
+      {
+        label: 'Телеграмм',
+        subLabel: 'Настройка базы знаний',
+        href: '/admin/telegram',
       },
     ],
   },

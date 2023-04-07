@@ -21,10 +21,10 @@ import {
   Button,
   Stack,
   OrderedList,
+  Avatar,
 } from '@chakra-ui/react';
 import { CheckIcon, StarIcon } from '@chakra-ui/icons';
 import { FaTelegram } from 'react-icons/fa';
-import { investments } from '@/lib/investments';
 import { useRouter } from 'next/router';
 import Details from '../details';
 import Fade from 'react-reveal';
@@ -33,36 +33,6 @@ interface IBlogTags {
   marginTop?: SpaceProps['marginTop'];
   link: string;
 }
-
-const BlogTags: React.FC<IBlogTags> = (props) => {
-  const handleTelegram = (e: any) => {
-    e.stopPropagation();
-    const telegramLink = e.target.getAttribute('data-link');
-    window.open(telegramLink);
-  };
-  return (
-    <Wrap spacing={'2'} marginTop={props.marginTop}>
-      {props.tags.map((tag) => {
-        return (
-          <Tag size={'md'} variant='solid' colorScheme='orange' key={tag}>
-            {tag}
-          </Tag>
-        );
-      })}
-      <Button
-        marginTop='3'
-        size='sm'
-        variant='solid'
-        colorScheme='telegram'
-        leftIcon={<FaTelegram />}
-        data-link={props.link}
-        onClick={handleTelegram}
-      >
-        Telegram
-      </Button>
-    </Wrap>
-  );
-};
 
 interface BlogAuthorProps {
   date: Date;
@@ -86,10 +56,11 @@ export const BlogAuthor: React.FC<BlogAuthorProps> = (props) => {
 };
 
 interface MainProps {
-  investment?: any;
+  investment: any;
+  investments: any[];
 }
 
-const Main = ({ investment }: MainProps): JSX.Element => {
+const Main = ({ investment, investments }: MainProps): JSX.Element => {
   const router = useRouter();
 
   const handleNavigate = (id: string) => (e: any) => {
@@ -102,12 +73,10 @@ const Main = ({ investment }: MainProps): JSX.Element => {
     window.open(telegramLink);
   };
 
-  const sliced = investments?.slice(0, 5) ?? [];
-
   return (
     <Container maxW={'7xl'} p={{ base: 0, sm: '20px 10px', md: '30px 0x' }}>
       <Flex direction={{ base: 'column', sm: 'column', md: 'row', lg: 'row' }}>
-        <Box minWidth={'350px'}>
+        <Box minWidth={'350px'} width={{ base: '100%', md: '25%' }}>
           <Fade left ssrFadeout>
             <Wrap pb='20px'>
               <WrapItem
@@ -138,10 +107,10 @@ const Main = ({ investment }: MainProps): JSX.Element => {
                   </Box>
 
                   <Wrap spacing={'2'} marginTop={3}>
-                    <Tag size={'md'} variant='solid' colorScheme='orange'>
+                    <Tag size={'md'} variant='outline' colorScheme='orange'>
                       {investment?.status}
                     </Tag>
-                    <Tag size={'md'} variant='solid' colorScheme='orange'>
+                    <Tag size={'md'} variant='solid' colorScheme='green'>
                       <StarIcon mr={2} /> {investment?.rate}
                     </Tag>
                     <Button
@@ -179,11 +148,6 @@ const Main = ({ investment }: MainProps): JSX.Element => {
                       })}
                     </List>
                   </Box>
-
-                  {/* <BlogAuthor
-                  name='John Doe'
-                  date={new Date('2021-04-06T19:01:27Z')}
-                /> */}
                 </Box>
               </WrapItem>
               <Divider />
@@ -211,7 +175,7 @@ const Main = ({ investment }: MainProps): JSX.Element => {
 
                   <Box p={0}>
                     <VStack mt={5} p={0}>
-                      {sliced.map((item, index) => {
+                      {investments?.map((item: any, index) => {
                         return (
                           <HStack
                             pl={3}
@@ -227,9 +191,8 @@ const Main = ({ investment }: MainProps): JSX.Element => {
                           >
                             <HStack>
                               <Text>{`#${index + 1}`}</Text>
-                              <Image
+                              <Avatar
                                 src={item.image}
-                                alt='some text'
                                 objectFit='cover'
                                 width='40px'
                                 height={'40px'}
@@ -240,7 +203,12 @@ const Main = ({ investment }: MainProps): JSX.Element => {
                             <Tag
                               size={'md'}
                               variant='solid'
-                              colorScheme='orange'
+                              colorScheme='green'
+                              width={'50px'}
+                              p={2}
+                              display={'flex'}
+                              alignItems={'center'}
+                              justifyContent={'center'}
                             >
                               <StarIcon mr={2} /> {item.rate}
                             </Tag>
@@ -254,9 +222,13 @@ const Main = ({ investment }: MainProps): JSX.Element => {
             </Wrap>
           </Fade>
         </Box>
-        <Fade right ssrFadeout>
-          <Details details={investment?.details} />
-        </Fade>
+        <Box width={'100%'}>
+          <Fade right ssrFadeout>
+            <Box width={'100%'}>
+              <Details details={investment?.details} />
+            </Box>
+          </Fade>
+        </Box>
         <Box display={{ base: 'block', md: 'none' }}>
           <Divider />
           <Box
@@ -287,7 +259,7 @@ const Main = ({ investment }: MainProps): JSX.Element => {
 
                 <Box p={0}>
                   <VStack mt={5} p={0}>
-                    {sliced.map((item, index) => {
+                    {investments?.map((item: any, index) => {
                       return (
                         <HStack
                           pl={3}
@@ -303,9 +275,8 @@ const Main = ({ investment }: MainProps): JSX.Element => {
                         >
                           <HStack>
                             <Text>{`#${index + 1}`}</Text>
-                            <Image
+                            <Avatar
                               src={item.image}
-                              alt='some text'
                               objectFit='cover'
                               width='40px'
                               height={'40px'}
@@ -313,7 +284,16 @@ const Main = ({ investment }: MainProps): JSX.Element => {
                             />
                             <Text fontWeight={'semibold'}>{item.title}</Text>
                           </HStack>
-                          <Tag size={'md'} variant='solid' colorScheme='orange'>
+                          <Tag
+                            size={'md'}
+                            variant='solid'
+                            colorScheme='green'
+                            width={'50px'}
+                            p={2}
+                            display={'flex'}
+                            alignItems={'center'}
+                            justifyContent={'center'}
+                          >
                             <StarIcon mr={2} /> {item.rate}
                           </Tag>
                         </HStack>

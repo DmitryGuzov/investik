@@ -2,29 +2,33 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import MainLayout from '@/components/main-layout';
-import { Box, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, useColorModeValue, Wrap } from '@chakra-ui/react';
 import Main from '@/components/main';
-import TestimonialsSlider from '@/components/testimonials-slider';
-import React from 'react';
+import TestimonialsSlider, {
+  TestimonialAvatar,
+  TestimonialContent,
+  TestimonialText,
+} from '@/components/testimonials-slider';
+import React, { useEffect } from 'react';
 import Fade from 'react-reveal';
-import { investments } from '@/lib/investments';
+import { collection, doc, getDoc, getFirestore } from 'firebase/firestore';
+import { db } from '@/config/firebase';
+import {
+  getInvestmentById,
+  getTopFiveInvestments,
+} from '@/services/investments';
+import Testimonial from '@/components/testimonial';
+import { getAllInvestmentComments } from '@/services/comments';
+import investments from '../admin/investments';
 
 // This gets called on every request
 export async function getServerSideProps(context: any) {
-  console.log();
   const id = context.params.investmentId; // Get ID from slug `/book/1`
-  console.log(context.params);
-  console.log(id);
-  // Fetch data from external API
-  // const res = await fetch(`https://.../data`)
-  // const data = await res.json()
-  let investment = null;
-  // Pass data to the page via props
-  investments.forEach((invest) => {
-    if (invest.id === id) {
-      investment = invest;
-    }
-  });
+
+  const investment = await getInvestmentById(id);
+  const comments = await getAllInvestmentComments(id);
+  const topFiveInvestments = await getTopFiveInvestments();
+
   if (!investment) {
     return {
       redirect: {
@@ -33,18 +37,19 @@ export async function getServerSideProps(context: any) {
       },
     };
   }
-  return { props: { investment: investment } };
+
+  return {
+    props: {
+      investment: investment ? investment : [],
+      investments: topFiveInvestments ? topFiveInvestments : [],
+      comments: comments ? comments : [],
+    },
+  };
 }
 
 export default function Investment(props: any) {
-  console.log(props);
   const bg1 = useColorModeValue('gray.50', 'gray.900');
   const bg2 = useColorModeValue('gray.100', 'gray.700');
-  // const { investmentId } = router.query;
-  const router = useRouter();
-  if (props.investment == null) {
-    router.push('/');
-  }
 
   return (
     <>
@@ -56,13 +61,40 @@ export default function Investment(props: any) {
       </Head>
       <MainLayout>
         <Box bg={bg1} w='100%'>
-          <Main investment={props.investment} />
+          <Main investment={props.investment} investments={props.investments} />
         </Box>
-        {props?.investment?.testimonials.length > 0 ? (
+        {props?.comments?.length > 0 ? (
           <Box bg={bg2}>
-            <Fade bottom ssrFadeout distance={'10%'}>
-              <TestimonialsSlider list={props?.investment?.testimonials} />
-            </Fade>
+            {props?.comments?.length < 3 ? (
+              <Flex
+                p={5}
+                alignItems={'center'}
+                justifyContent={'space-around'}
+                flexWrap={'wrap'}
+                gap={5}
+              >
+                {props.comments.map((t: any, index: number) => {
+                  return (
+                    <Testimonial key={index}>
+                      <TestimonialContent>
+                        <TestimonialText>{t.message}</TestimonialText>
+                      </TestimonialContent>
+                      <TestimonialAvatar
+                        src={t.image}
+                        name={t.name}
+                        title={'CEO at ABC Corporation'}
+                      />
+                    </Testimonial>
+                  );
+                })}
+              </Flex>
+            ) : (
+              <>
+                <Fade bottom ssrFadeout distance={'10%'}>
+                  <TestimonialsSlider list={props?.comments} />
+                </Fade>
+              </>
+            )}
           </Box>
         ) : null}
       </MainLayout>

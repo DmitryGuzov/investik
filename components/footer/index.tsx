@@ -10,8 +10,11 @@ import {
 } from '@chakra-ui/react';
 import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 import { ReactNode } from 'react';
-import Logo from '../logo';
+// import Logo from '../logo';
+// import Logo2 from '../logo/logo2';
 import Logo2 from '../logo/logo2';
+import logos from '../../assets/images/teleginvest-logo-1.png';
+import Image from 'next/image';
 
 const SocialButton = ({
   children,
@@ -65,7 +68,8 @@ export default function Footer() {
           © 2023 - Все права защищены
         </Text>
         <Box order={{ base: 2, md: 2 }} display={{  md: 'flex' }}>
-          <Logo />
+          <Logo2 />
+   
         </Box>
         {/* <Stack
           direction={'row'}

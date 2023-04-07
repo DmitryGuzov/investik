@@ -1,12 +1,10 @@
 import Head from 'next/head';
-import { Inter } from '@next/font/google';
 import MainLayout from '@/components/main-layout';
 import Carousel from '@/components/carousel';
 import {
   Box,
   Container,
   Heading,
-  Image,
   List,
   ListIcon,
   ListItem,
@@ -17,12 +15,28 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import InvestmentList from '@/components/investment-list';
-import { investments } from '@/lib/investments';
 import QuestionsAccordion from '@/components/questions-accordion';
 import { CheckIcon } from '@chakra-ui/icons';
 import Fade from 'react-reveal';
+import { getTopFiveInvestments } from '@/services/investments';
+import KnowledgesBox from '@/components/knowledges';
+import { getKnowledges } from '@/services/knowledges';
 
-export default function Home() {
+export async function getServerSideProps() {
+  let investments: any = [];
+
+  const topFiveInvestments = await getTopFiveInvestments();
+
+  const knowledges = await getKnowledges();
+
+  if (topFiveInvestments != null) {
+    investments = topFiveInvestments;
+  }
+
+  return { props: { investments: investments, knowledges: knowledges } };
+}
+
+export default function Home(props: any) {
   return (
     <>
       <Head>
@@ -56,21 +70,12 @@ export default function Home() {
                   проектов по инвестициям
                 </Text>
               </Heading>
-              <Text
-                textAlign={'center'}
-                marginTop='20px'
-                fontSize={{ base: '18px', md: '21px' }}
-              >
-                Часто задаваемые вопросы про инвестиции
-              </Text>
             </Fade>
           </Stack>
-          {/* <Fade bottom ssrFadeout> */}
-          <InvestmentList list={investments.slice(0, 5)} />
-          {/* </Fade> */}
+          <InvestmentList list={props.investments} />
         </Box>
 
-        <Container maxW={'7xl'} p={5} as={Stack} spacing={3}>
+        <Container maxW={'7xl'} as={Stack} p={0} mb={10}>
           <VStack
             paddingTop='40px'
             spacing='2'
@@ -328,6 +333,19 @@ export default function Home() {
             </Box>
           </VStack>
         </Container>
+        {props.knowledges?.length > 0 ? (
+          <Container
+            maxW={'7xl'}
+            p={0}
+            bg='#fff'
+            mb={10}
+            borderRadius={'8px'}
+            boxShadow={'lg'}
+          >
+            <KnowledgesBox knowledges={props.knowledges} />
+          </Container>
+        ) : null}
+
         <Box bg={useColorModeValue('gray.100', 'gray.700')}>
           <Fade bottom ssrFadeout distance={'30%'}>
             <QuestionsAccordion />

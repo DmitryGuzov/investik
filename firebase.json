@@ -1,0 +1,29 @@
+{
+  "hosting": {
+    "public": "out",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "cleanUrls": true,
+    "rewrites": [
+      {
+        "source": "/**",  
+        "dynamicLinks": true
+      },
+      {
+        "source": "/investments/**",
+        "dynamicLinks": true
+      },
+      {
+        "source": "/admin/**",
+        "dynamicLinks": true
+      },
+      {
+        "source": "/admin/investments/**",
+        "dynamicLinks": true
+      }
+    ]
+  }
+}

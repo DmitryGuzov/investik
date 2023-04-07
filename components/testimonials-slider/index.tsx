@@ -17,42 +17,9 @@ import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
 import Slider from 'react-slick';
 import Testimonial from '../testimonial';
 
-const settings = {
-  dots: true,
-  infinite: true,
-  speed: 1000,
-  arrows: false,
-  autoplay: true,
-  autoplaySpeed: 5000,
-  slidesToShow: 3,
-  slidesToScroll: 1,
-  touchThreshold: 1000,
-  responsive: [
-    {
-      breakpoint: 992,
-      settings: {
-        slidesToShow: 2,
-        arrows: false,
-      },
-    },
-    {
-      breakpoint: 560,
-      settings: {
-        slidesToShow: 1,
-        arrows: false,
-      },
-    },
-    {
-      breakpoint: 481,
-      settings: {
-        slidesToShow: 1,
-        arrows: false,
-      },
-    },
-  ],
-};
 
-const TestimonialContent = ({ children }: { children: ReactNode }) => {
+
+export const TestimonialContent = ({ children }: { children: ReactNode }) => {
   return (
     <Stack
       bg={useColorModeValue('white', 'gray.800')}
@@ -91,7 +58,7 @@ const TestimonialHeading = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const TestimonialText = ({ children }: { children: ReactNode }) => {
+export const TestimonialText = ({ children }: { children: ReactNode }) => {
   return (
     <Text
       textAlign={'center'}
@@ -104,7 +71,7 @@ const TestimonialText = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const TestimonialAvatar = ({
+export const TestimonialAvatar = ({
   src,
   name,
   title,
@@ -138,6 +105,40 @@ export default function TestimonialsSlider({
   // buttons as the screen size changes
   const top = useBreakpointValue({ base: '90%', md: '50%' });
   const side = useBreakpointValue({ base: '30%', md: '40px' });
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 1000,
+    arrows: false,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    slidesToShow: list.length > 2 ? 3 : 1,
+    slidesToScroll: 1,
+    touchThreshold: 1000,
+    responsive: [
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: list.length > 1 ? 2 : 1,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 560,
+        settings: {
+          slidesToShow: 1,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 481,
+        settings: {
+          slidesToShow: 1,
+          arrows: false,
+        },
+      },
+    ],
+  };
 
   return (
     <Box
